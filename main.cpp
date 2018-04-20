@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 #define input 5
-#define a^^b  a ? !b : b
+//#define a^^b  a ? !b : b
 static int board[input][input]={0};
 int mv = 0;
 
@@ -73,65 +73,87 @@ void update_board(int i, int j, bool chance)
 {
     int l = limit(i,j);
 
-  if(chance)
-  {
-      if((check_green()^check_red())||(mv<=2))
-      {
-          board[i][j] = -abs(board[i][j]);
-          board[i][j]-=1;
+    if(!(check_green()^check_red())||(mv<=2))
+    {
+        if (chance)
+        {
+            board[i][j] = -abs(board[i][j]);
+            board[i][j] = board[i][j] - 1;
 
-          if(abs(board[i][j]) >= l)
-          {
-              board[i][j] = 0;
-              if( l == 2)
-              {
+            if (abs(board[i][j]) == l)
+            {
+                board[i][j] = 0;
+                if (l == 2)
+                {
 
-                  update_board(min(i+1,input-2),j,chance);
-                  update_board(i,min(j+1,input-2),chance);
+                    update_board(min(i + 1, input - 2), j, chance);
+                    update_board(i, min(j + 1, input - 2), chance);
 
-              } else if(l == 3)
-              {
+                } else if (l == 3)
+                {
+                    if (i == 0 || i == input-1)
+                    {
+                        update_board(i,j+1,chance);
+                        update_board(i,j-1,chance);
+                        update_board(min(i+1,input-2),j,chance);
 
-              } else
-              {
-                  update_board(i+1,j,chance);
-                  update_board(i-1,j,chance);
-                  update_board(i,j+1,chance);
-                  update_board(i,j-1,chance);
-              }
+                    } else
+                    {
+                        update_board(i+1,j,chance);
+                        update_board(i-1,j,chance);
+                        update_board(i,min(j+1,input-2),chance);
+                    }
 
-          }
-      } else
-          return;
-  } else
-  {
-      if(!(check_green()^check_red())||(mv<=2))
-      {
-          board[i][j] = abs(board[i][j]);
-          board[i][j]+=1;
-          if(abs(board[i][j]) >= l)
-          {
-              board[i][j] = 0;
-               if(l == 2)
-               {
-                   update_board((i+input-1 -(i+1,input-2)),j,chance);
-                   update_board(i,(j+input-1 -(j+1,input-2)),chance);
+                } else if (l == 4)
+                {
+                    //  printf("REACHED!!!!");
+                    update_board(i+1, j, chance);
+                    update_board(i-1, j, chance);
+                    update_board(i, j+1, chance);
+                    update_board(i, j-1, chance);
+                }
 
-               } else if( l == 3)
-               {
+            }
+        }
+        else
+        {
+                board[i][j] = abs(board[i][j]);
+                board[i][j] += 1;
+                if (abs(board[i][j]) == l)
+                {
+                    board[i][j] = 0;
+                    if (l == 2) {
+                        update_board(min(i + 1, input - 2), j, chance);
+                        update_board(i, min(j + 1, input - 2), chance);
 
-               } else
-               {
-                   update_board(i+1,j,chance);
-                   update_board(i-1,j,chance);
-                   update_board(i,j+1,chance);
-                   update_board(i,j-1,chance);
-               }
-          }
-      } else
-          return;
-  }
+                    } else if (l == 3)
+                    {
+                        if (i == 0 || i == input-1)
+                        {
+                            update_board(i,j+1,chance);
+                                    update_board(i,j-1,chance);
+                            update_board(min(i+1,input-2),j,chance);
 
+                        } else
+                        {
+                            update_board(i+1,j,chance);
+                            update_board(i-1,j,chance);
+                            update_board(i,min(j+1,input-2),chance);
+                        }
+
+                    } else if (l == 4)
+                    {
+                        // printf("REACHED!!!!");
+                        update_board(i+1, j, chance);
+                        update_board(i-1, j, chance);
+                        update_board(i, j+1, chance);
+                        update_board(i, j-1, chance);
+                    }
+                }
+
+        }
+    } else
+        return;
 }
 
 void move()
@@ -185,6 +207,6 @@ int main()
     printArr();
     move();
 //    int x=1,y=5;
-// printf("%d\n",x ? !y : y);
+// printf("%d\n",limit(2,3));
     return 0;
 }
