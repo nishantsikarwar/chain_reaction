@@ -26,7 +26,7 @@ bool check_red()
         return true;
     return false;
 }
-int check_green()
+bool check_green()
 {
     int sum = 0;
     for (auto &i : board) {
