@@ -166,12 +166,13 @@ void update_board(int i, int j, bool chance)
         return;
 }
 
-void move()
+int move()
 {
-    if((check_red()^check_red())&&(mv>=2))
+    bool x = check_red()^check_green();
+    if(x&&(mv>=2))
         {
             printf("EXIT_SUCCESS\n");
-                 return;
+                 return -1;
         }             
     int i,j;
     bool  chance= (mv%2);
