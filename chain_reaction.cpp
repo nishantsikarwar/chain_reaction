@@ -6,6 +6,7 @@ using namespace std;
 //#define a^^b  a ? !b : b
 static int board[a][b]={0};
 int mv = 0;
+bool finished=false;
 
 bool valid_input( int i, int j)
 {
@@ -166,17 +167,11 @@ void update_board(int i, int j, bool chance)
         return;
 }
 
-int move()
-{
-    bool x = check_red()^check_green();
-    if(x&&(mv>=2))
-        {
-            printf("EXIT_SUCCESS\n");
-                 return -1;
-        }             
-    int i,j;
+void move(int i, int j)
+{   
+    //int i,j;
     bool  chance= (mv%2);
-    cin>>i>>j;
+   // cin>>i>>j;
     if(valid_input(i,j))
     {
         if(chance)
@@ -187,7 +182,8 @@ int move()
             } else
             {
                 printf("ILLEGAL_MOVE\n");
-                move();
+              //  move();
+                return;
             }
            // count_red++;
         } else
@@ -199,7 +195,7 @@ int move()
                 } else
                     {
                         printf("ILLEGAL_MOVE\n");
-                        move();
+                      return;///  move();
                     }
              //  count_green++;
         }
@@ -211,14 +207,28 @@ int move()
     else
         printf("ILLEGAL_MOVE\n");
         
-        move();
-
+       // move();
+           
+    return;
 }
 
 int main()
 {
     printArr();
-    move();
+
+    while(true)
+ {   
+   bool x = check_red()^check_green();  
+ if(x&&(mv>=2))
+{ 
+    printf("EXIT_SUCCESS\n");
+    break;
+ } 
+  int i,j;
+ cin>>i>>j;
+     move(i,j);
+ }
+     
 //    int x=1,y=5;
 // printf("%d\n",limit(2,3));
     return 0;
